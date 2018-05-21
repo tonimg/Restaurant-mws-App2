@@ -26,6 +26,7 @@ const concat = require('gulp-concat');
 const rename = require('gulp-rename');
 const jshint = require('gulp-jshint');
 const autoprefixer = require('gulp-autoprefixer');
+// const sass = require('gulp-sass');
 
 // File where the favicon markups are stored
 const reload = browserSync.reload;
@@ -87,12 +88,9 @@ gulp.task('minify-js', () => {
     .pipe(gulp.dest(src.dist.js));
 });
 
-// Autoprefixer
-
- 
-gulp.task("default", () =>
-  gulp
-    .src("src/dev.css")
+// minify-css & Autoprefixer
+gulp.task('minify-css', () => {
+  gulp.src(src.dev.css)
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(
       autoprefixer({
@@ -100,18 +98,10 @@ gulp.task("default", () =>
         cascade: false
       })
     )
-    .pipe(sourcemaps.write('./maps'))
-    .pipe(gulp.dest("src.dist.css"))
-);
-
-
-// minify-css
-gulp.task('minify-css', () => {
-  gulp.src(src.dev.css)
-    .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(concat('all.css'))
     .pipe(minifycss().on('error', minifycss.logError))
     .pipe(sourcemaps.write('./maps'))
-    .pipe(gulp.dest(src.dist.css));
+    .pipe(gulp.dest("src.dist.css"));
 });
 
 // minify-html
