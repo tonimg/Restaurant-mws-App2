@@ -60,5 +60,7 @@ curl "http://localhost:1337/restaurants/{3}"
 
 
 ### Lighthouse Result
+
 *  HomePage
+
 ![homepage](./img/home.png)
