@@ -48,8 +48,6 @@ gulp.task('serve:dist', () => {
   gulp.src(['./app/assets/img/*']).pipe(gulp.dest('./dist/assets/img'));
   //copy html
   gulp.src(['./app/index.html', '.app/restaurant.html']).pipe(gulp.dest('./dist/'));
-  //copy sw.js
-  gulp.src(['./app/sw.js']).pipe(gulp.dest('./dist/'));
   //copy manifest.json
   gulp.src(['./app/manifest.json']).pipe(gulp.dest('./dist/'));
   //copy icons manifest
