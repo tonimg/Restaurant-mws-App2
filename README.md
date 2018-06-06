@@ -40,18 +40,20 @@ curl "http://localhost:1337/restaurants/{3}"
 
 ## Instructions run APP
 
-
-### For start the project:
-
 ###### Install project dependancies
 ```
 # npm i
 ```
 
-###### Star the project APP
+##### Star the project APP
+
+###### for minify-files and create the responsive images
 ```
-# gulp minify-files // for minify-files and create the responsive images
-# gulp serve:dist // for run the project
+# gulp minify-files 
+```
+###### for run the project
+```
+# gulp serve:dist 
 ```
 
 ## Automaticaly open your default browser on localhost:8000, where you can view and navigate for the restaurant App.
