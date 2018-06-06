@@ -1,35 +1,56 @@
 /**
  * Common database helper functions.
  */
-class DBHelper {
 
+class DBHelper {
+  
   /**
-   * Database URL.
-   * Change this to restaurants.json file location on your server.
+   * API URL fecth
+   * Server addres to make request.
    */
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/assets/data/restaurants.json`;
+    const port = 1337 // Change this to your server port
+    return `http://localhost:${port}/restaurants`;    
   }
 
   /**
    * Fetch all restaurants.
    */
-  static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
-      }
-    };
-    xhr.send();
+  static get dbPromise() {
+    return idb.open('restaurants', 1, function (upgradeDb) {
+      upgradeDb.createObjectStore('all-restaurants', { keyPath: 'id' });
+    });
   }
+
+	static fetchRestaurants(callback) {
+    DBHelper.dbPromise
+    .then(db => {
+			if (!db) return;
+			const tx = db.transaction('all-restaurants');
+			const store = tx.objectStore('all-restaurants');
+			store.getAll().then(results => {
+        return fetch(DBHelper.DATABASE_URL)
+					.then(response => {
+						return response.json();
+					})
+					.then(restaurants => {
+						// Restaurants fetched from network
+						// 3. Put fetched restaurants into IDB
+						const tx = db.transaction('all-restaurants', 'readwrite');
+						const store = tx.objectStore('all-restaurants');
+						restaurants.forEach(restaurant => {
+							store.put(restaurant);
+						})
+						callback(null, restaurants);
+					})
+					.catch(error => {
+						// Unable to fetch from network
+						callback(error, null);
+					});
+			})
+			
+		});
+	}
 
   /**
    * Fetch a restaurant by its ID.
@@ -89,6 +110,7 @@ class DBHelper {
     // Fetch all restaurants
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
+        console.log('error: ', error);
         callback(error, null);
       } else {
          // Get all neighborhoods from all restaurants
@@ -151,7 +173,7 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`./assets/img/${restaurant.photograph}`);
+    return (`./assets/img/${restaurant.photograph}.jpg`);
   }
 
   /**
@@ -163,6 +185,7 @@ class DBHelper {
       position: restaurant.latlng,
       title: restaurant.name,
       url: DBHelper.urlForRestaurant(restaurant),
+      // url: `./restaurant.html?id=${restaurant.id}`,
       map: map,
       animation: google.maps.Animation.DROP}
     );

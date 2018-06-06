@@ -5,6 +5,8 @@
   <!-- Meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#333"/>
+  <link rel="manifest" href="manifest.json">
   <!-- Normalize.css for better cross-browser consistency -->
   <link rel="preload" as="style" onload="this.rel='stylesheet'"  href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
   <!-- Main CSS file -->
@@ -50,12 +52,14 @@
   <!-- End footer -->
 
   <!-- Beginning scripts -->
+  <!-- IndexDB -->
+  <script src="./assets/js/idb.js"></script>
   <!-- Database helpers -->
-  <script src="assets/js/dbhelper.js"></script>
+  <script src="./assets/js/dbhelper.js"></script>
   <!-- Main javascript file -->
-  <script src="assets/js/main.js"></script>
+  <script src="./assets/js/main.js"></script>
   <!-- Google Maps -->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCukJNjdKWhaT9I07Y-uq9EyzAD4mLWx4M&libraries=places&callback=initMap"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5OTBYwB_5DjQWMnhMhBVeSA6d_dUdwRk&libraries=places&callback=initMap"></script>
   <!-- Service Worker -->
   <script src="./assets/js/index.js"></script>
   <!-- End scripts -->

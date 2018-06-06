@@ -1,16 +1,6 @@
 // List Tasks:
 
 // serve (serve dev and watch files)
-// serve:dist (serve build files)
-
-// lint (lint to js)
-// minify-js (js minify)
-// autoprefixer (npm install --save-dev gulp-autoprefixer)
-// minify-css (css minify)
-// minify-html
-// minFiles (minify-js, minify-css and minify-html)
-// images (creates responsive jpg and png files)
-// webp (creates webp files from jpg files)
 
 // Include gulp
 const gulp = require('gulp');
@@ -18,13 +8,10 @@ const gulp = require('gulp');
 // Include Our Plugins
 const browserSync = require('browser-sync');
 const responsive = require('gulp-responsive');
-// const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify-es').default;
-// const cleanCSS = require('gulp-clean-css');
 const csso = require('gulp-csso');
 //
 const htmlmin = require('gulp-htmlmin');
-// const concat = require('gulp-concat');
 const rename = require('gulp-rename');
 const jshint = require('gulp-jshint');
 const autoprefixer = require('gulp-autoprefixer');
@@ -39,12 +26,12 @@ gulp.task('serve', () => {
     port: 8000,
     injectChanges: true,
     server: {
-      baseDir: './'
+      baseDir: './app'
     }
   });
-  gulp.watch(['*.html', './assets/js/*.js'])
-  gulp.watch('./assets/scss/*.scss', ['minify-css'])
-  .on('change', reload);
+  gulp.watch('./app/*.html', ['minify-html']).on('change', reload);
+  gulp.watch('./app/assets/js/**/*.js', ['minify-js']).on('change', reload);
+  gulp.watch('./app/assets/scss/**/*.scss', ['minify-css']).on('change', reload);
 });
 
 // copy files to dist folder and start serve dist
@@ -56,21 +43,28 @@ gulp.task('serve:dist', () => {
     }
   });
   //copy data folder to dist folder
-  gulp.src(['assets/data/**/*']).pipe(gulp.dest('./dist/assets/data/'));
+  gulp.src(['./app/assets/data/**/*']).pipe(gulp.dest('./dist/assets/data/'));
   //copy images
-  gulp.src(['assets/img/*']).pipe(gulp.dest('./dist/assets/img'))
+  gulp.src(['./app/assets/img/*']).pipe(gulp.dest('./dist/assets/img'));
+  //copy html
+  gulp.src(['./app/index.html', '.app/restaurant.html']).pipe(gulp.dest('./dist/'));
+  //copy sw.js
+  gulp.src(['./app/sw.js']).pipe(gulp.dest('./dist/'));
+  //copy manifest.json
+  gulp.src(['./app/manifest.json']).pipe(gulp.dest('./dist/'));
+  //copy icons manifest
+  gulp.src(['./app/assets/icons/*']).pipe(gulp.dest('./dist/assets/icons/'));
 });
-
 //  Minify-js
 gulp.task('minify-js', () => {
-  gulp.src('./assets/js/*.js')
+  gulp.src('./app/assets/js/*.js')
     .pipe(uglify())
     .pipe(gulp.dest('./dist/assets/js/'));
 });
 
 // minify-scss & Autoprefixer
 gulp.task('minify-css', () => {
-  gulp.src('./assets/scss/*.scss')
+  gulp.src('./app/assets/scss/*.scss')
     .pipe(reload({stream: true}))
     .pipe(sass({
       outputStyle: 'compressed',
@@ -84,14 +78,14 @@ gulp.task('minify-css', () => {
         cascade: false
       })
     )
-    .pipe(gulp.dest('./assets/css/'))
+    .pipe(gulp.dest('./app/assets/css/'))
     .pipe(csso())
     .pipe(gulp.dest('./dist/assets/css/'));
 });
 
 // minify-html
 gulp.task('minify-html', () => {
-  gulp.src('*.html')
+  gulp.src('./app/*.html')
     .pipe(htmlmin({ 
       collapseWhitespace: true,
       removeComments: true
@@ -99,16 +93,9 @@ gulp.task('minify-html', () => {
     .pipe(gulp.dest('./dist/'));
 });
 
-// // Lint Task
-// gulp.task('lint', function() {
-//   return gulp.src('./assets/js/*.js')
-//       .pipe(jshint().on('error', jshint.logError))
-//       .pipe(jshint.reporter('default'));
-// });
-
 // generate responsive jpg files
 gulp.task('images', () => {
-  gulp.src(`${src.dev.img}*.{jpg,png}`)
+  gulp.src('./app/assets/img/*.jpg')
     .pipe(responsive({
       // Resize all JPG images to three different sizes: 300, 400, and 600 pixels
       '*.jpg': [{
@@ -148,5 +135,7 @@ gulp.task('images', () => {
       withMetadata: false,
       max: true
     }))
-    .pipe(gulp.dest(src.dev.img));
+    .pipe(gulp.dest('./dist/assets/img'));
 });
+
+gulp.task('minify-files',   ['minify-js', 'minify-css', 'minify-html','images']);
