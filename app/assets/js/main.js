@@ -1,8 +1,6 @@
-let restaurants;
-let neighborhoods;
-let cuisines;
-let map;
-var markers = [];
+let restaurants, neighborhoods, cuisines, map;
+let markers = [];
+const myLazyLoad = new LazyLoad();
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.

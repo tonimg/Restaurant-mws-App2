@@ -5,6 +5,7 @@
   <!-- Meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Website about Mobile Web Specialist">
   <meta name="theme-color" content="#333"/>
   <link rel="manifest" href="manifest.json">
   <!-- Normalize.css for better cross-browser consistency -->
@@ -12,6 +13,7 @@
   <!-- Main CSS file -->
   <link href="https://fonts.googleapis.com/css?family=Lato:400i|Lobster" rel="stylesheet">
   <link rel="preload" as="style" onload="this.rel='stylesheet'"  href="./assets/css/styles.css">
+  <link rel="preconnect" href="https://maps.googleapis.com">
   <link rel="icon" href="./assets/img/favicon.ico">
   <title>Restaurant Reviews</title>
 </head>
@@ -67,6 +69,8 @@
   <!-- Beginning scripts -->
     <!-- IndexDB -->
     <script src="./assets/js/idb.js"></script>
+      <!-- Lazyload -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.7.1/lazyload.min.js"></script>
   <!-- Database helpers -->
   <script src="./assets/js/dbhelper.js"></script>
   <!-- Main javascript file -->

@@ -1,5 +1,6 @@
 let restaurant;
 let map;
+const myLazyLoad = new LazyLoad();
 
 /**
  * Initialize Google map, called from HTML.

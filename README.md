@@ -59,8 +59,12 @@ curl "http://localhost:1337/restaurants/{3}"
 ## Automaticaly open your default browser on localhost:8000, where you can view and navigate for the restaurant App.
 
 
-### Lighthouse Result
+### Lighthouse Results
 
 *  HomePage
 
 ![homepage](./img/home.png)
+
+*  Details page
+
+![homepage](./img/details.png)
