@@ -7,7 +7,7 @@ notes/
 # Directories
 #--------------------------------------
 build/
-dist/
+#dist/
 coverage/
 node_modules/
 tmp/
