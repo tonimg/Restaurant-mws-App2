@@ -1,5 +1,8 @@
-let restaurants, neighborhoods, cuisines, map;
-let markers = [];
+let restaurants;
+let neighborhoods;
+let cuisines;
+let map;
+var markers = [];
 const myLazyLoad = new LazyLoad();
 
 /**
@@ -61,7 +64,7 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
     const option = document.createElement('option');
     option.innerHTML = cuisine;
     option.value = cuisine;
-    option.setAttribute("role", "Option");
+    option.setAttribute("role", "option");
     select.append(option);
   });
 }
@@ -138,7 +141,7 @@ createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
+  image.className = 'restaurant-img myLazyLoad';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   image.srcset = `./assets/img/${restaurant.id}.jpg, ./assets/img/${restaurant.id}-l.jpg 1x, ./assets/img/${restaurant.id}-l.jpg 2x`;
   image.alt = `${restaurant.name}`;

@@ -10,7 +10,6 @@ const browserSync = require('browser-sync');
 const responsive = require('gulp-responsive');
 const uglify = require('gulp-uglify-es').default;
 const csso = require('gulp-csso');
-//
 const htmlmin = require('gulp-htmlmin');
 const rename = require('gulp-rename');
 const jshint = require('gulp-jshint');
@@ -29,9 +28,9 @@ gulp.task('serve', () => {
       baseDir: './app'
     }
   });
-  gulp.watch('./app/*.html', ['minify-html']).on('change', reload);
-  gulp.watch('./app/assets/js/**/*.js', ['minify-js']).on('change', reload);
-  gulp.watch('./app/assets/scss/**/*.scss', ['minify-css']).on('change', reload);
+  gulp.watch('./app/*.html').on('change', reload);
+  gulp.watch('./app/assets/js/**/*.js').on('change', reload);
+  gulp.watch('./app/assets/scss/**/*.scss').on('change', reload);
 });
 
 // copy files to dist folder and start serve dist
@@ -45,9 +44,9 @@ gulp.task('serve:dist', () => {
   //copy data folder to dist folder
   gulp.src(['./app/assets/data/**/*']).pipe(gulp.dest('./dist/assets/data/'));
   //copy images
-  gulp.src(['./app/assets/img/*']).pipe(gulp.dest('./dist/assets/img'));
+  // gulp.src(['./app/assets/img/*']).pipe(gulp.dest('./dist/assets/img'));
   //copy html
-  gulp.src(['./app/index.html', '.app/restaurant.html']).pipe(gulp.dest('./dist/'));
+  // gulp.src(['./app/index.html', '.app/restaurant.html']).pipe(gulp.dest('./dist/'));
   //copy manifest.json
   gulp.src(['./app/manifest.json']).pipe(gulp.dest('./dist/'));
   //copy icons manifest
@@ -58,6 +57,11 @@ gulp.task('minify-js', () => {
   gulp.src('./app/assets/js/*.js')
     .pipe(uglify())
     .pipe(gulp.dest('./dist/assets/js/'));
+});
+gulp.task('minify-SWjs', () => {
+  gulp.src('./*.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('./dist/'));
 });
 
 // minify-scss & Autoprefixer
@@ -136,4 +140,4 @@ gulp.task('images', () => {
     .pipe(gulp.dest('./dist/assets/img'));
 });
 
-gulp.task('minify-files',   ['minify-js', 'minify-css', 'minify-html','images']);
+gulp.task('minify-files',   ['minify-js', 'minify-SWjs',  'minify-css', 'minify-html','images']);

@@ -26,20 +26,19 @@ class DBHelper {
     DBHelper.dbPromise
     .then(db => {
 			if (!db) return;
-			const tx = db.transaction('all-restaurants');
+			const tx = db.transaction('all-restaurants', 'readwrite');
 			const store = tx.objectStore('all-restaurants');
-			store.getAll().then(results => {
+      store.getAll()
+      .then(results => {
         return fetch(DBHelper.DATABASE_URL)
 					.then(response => {
-						return response.json();
+            return response.json();
 					})
 					.then(restaurants => {
-						// Restaurants fetched from network
-						// 3. Put fetched restaurants into IDB
 						const tx = db.transaction('all-restaurants', 'readwrite');
 						const store = tx.objectStore('all-restaurants');
 						restaurants.forEach(restaurant => {
-							store.put(restaurant);
+              store.put(restaurant);
 						})
 						callback(null, restaurants);
 					})

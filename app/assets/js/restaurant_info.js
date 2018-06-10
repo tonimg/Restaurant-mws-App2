@@ -60,7 +60,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.setAttribute("arial-label","addres of the restaurant" + restaurant.address);
 
   const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img';
+  image.className = 'restaurant-img myLazyLoad';
   image.alt = `${restaurant.name}`;
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   image.srcset = `./assets/img/${restaurant.id}.jpg, ./assets/img/${restaurant.id}-s.jpg 1x, ./assets/img/${restaurant.id}-s@2x.jpg 2x`;
